@@ -19,13 +19,13 @@ Designed for real-world scalable applications using 2025 frontend standards.
 
 ## 📦 Getting Started
 
-✅ The fastest and cleanest way to start:
+### ✅ The fastest and cleanest way to start:
 
 1. Open the repository:
    https://github.com/sokolovskyi-dev/vite-react-template
 
 2. Click the green button:
-   **“Use this template → Create a new repository”**
+   🖱️👉 **“Use this template → Create a new repository”**
 
 3. Choose a name (e.g. my-app)
 
@@ -41,7 +41,7 @@ npm run dev
 This creates a fresh project without git history, fully ready for development.
 Husky pre-commit hooks are automatically enabled after `npm install`.
 
-🔧 After creating a new project from this template, update your package.json metadata:
+🔧💡 After creating a new project from this template, update your package.json metadata:
 
 ```json
 "homepage": "https://your_username.github.io/your_repo_name/",
@@ -53,6 +53,33 @@ Husky pre-commit hooks are automatically enabled after `npm install`.
   "url": "https://github.com/your_username/your_repo_name/issues"
 }
 ```
+
+### ✅ The second way to start — Fast CLI Setup:
+
+```bash
+npx degit sokolovskyi-dev/vite-react-template my-app
+cd my-app
+npm install
+npm run dev
+```
+
+Initialize a fresh Git repository (because degit does NOT include .git):
+
+```bash
+git init
+git add .
+git commit -m "init"
+```
+
+Optionally connect to your own GitHub repo:
+
+```bash
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git push -u origin main
+```
+
+🔧💡 After creating a new project from this template, update your package.json metadata
 
 ## 🧩 Scripts
 
@@ -185,7 +212,7 @@ npm i -D eslint-import-resolver-typescript
 
 Update eslint.config.js:
 
-```json
+```js
 "import/resolver": {
   alias: {
     map: [["@", "./src"]],
@@ -205,7 +232,7 @@ Update eslint.config.js:
 
 - Add to vite.config.js:
 
-```json
+```js
 export default defineConfig({
   base: '/your_repo_name/',
 });
@@ -213,7 +240,7 @@ export default defineConfig({
 
 Then:
 
-```json
+```bash
 npm run build
 ```
 
