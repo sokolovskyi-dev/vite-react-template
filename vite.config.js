@@ -12,10 +12,9 @@ export default defineConfig({
     react(),
     checker({
       eslint: {
+        useFlatConfig: true, // ⬅ ВАЖНО!
         lintCommand: 'eslint "./src/**/*.{js,jsx}"',
       },
-      overlay: { initialIsOpen: false },
-      // typescript: true,
     }),
   ],
   resolve: {
