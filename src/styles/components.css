@@ -1,5 +1,14 @@
-button {
+button,
+input,
+textarea,
+select,
+a,
+label {
+  -webkit-tap-highlight-color: transparent;
   font: inherit;
+}
+
+button {
   cursor: pointer;
   border: none;
   border-radius: var(--radius);
@@ -32,7 +41,6 @@ button:disabled {
 input,
 textarea,
 select {
-  font: inherit;
   color: inherit;
   background: transparent;
   border: 1px solid var(--color-border);
@@ -49,7 +57,6 @@ select:focus-visible,
 button:focus-visible {
   outline: none;
   box-shadow: var(--ring);
-  border-radius: var(--radius);
 }
 
 a:focus-visible {
@@ -57,6 +64,7 @@ a:focus-visible {
   text-decoration: underline;
 }
 
+/* Errors */
 input.error {
   border-color: var(--color-error);
 }
