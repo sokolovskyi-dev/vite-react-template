@@ -1,15 +1,16 @@
 // eslint.config.js
 import js from '@eslint/js';
 import globals from 'globals';
+
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactRefresh from 'eslint-plugin-react-refresh';
+
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
-// ⬅️ Добавлен для JSX-парсинга
 import babelParser from '@babel/eslint-parser';
 
 export default [
@@ -17,26 +18,23 @@ export default [
     ignores: ['dist', 'node_modules'],
   },
 
-  // Core JS rules
   js.configs.recommended,
 
-  // Disable all ESLint formatting rules (Prettier will handle formatting)
   prettierConfig,
 
   {
     files: ['src/**/*.{js,jsx}'],
 
     languageOptions: {
-      parser: babelParser, // ⬅️ ВАЖНО: исправляет ошибки JSX
+      parser: babelParser,
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: globals.browser,
 
-      // Не требует babel.config.js
       parserOptions: {
         requireConfigFile: false,
         babelOptions: {
-          presets: ['@babel/preset-react'], // ⬅️ Чтобы парсер понимал JSX
+          presets: ['@babel/preset-react'],
         },
       },
     },
@@ -64,13 +62,13 @@ export default [
       // React
       ...react.configs.recommended.rules,
 
-      // Hooks
+      // React Hooks
       ...reactHooks.configs.recommended.rules,
 
-      // A11y
+      // Accessibility
       ...jsxA11y.configs.recommended.rules,
 
-      // Imports
+      // Import rules
       ...importPlugin.configs.recommended.rules,
       'import/no-unresolved': ['error', { ignore: ['^/'] }],
 
@@ -85,14 +83,23 @@ export default [
         },
       ],
 
-      // Fast Refresh (Vite)
+      // Vite React Fast Refresh
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 
       // React 17+
       'react/react-in-jsx-scope': 'off',
 
-      // Prettier formatting
-      'prettier/prettier': ['warn', { endOfLine: 'lf' }],
+      'no-invalid-this': 'error',
+
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'lf',
+          singleQuote: true,
+          trailingComma: 'all',
+          printWidth: 80,
+        },
+      ],
     },
   },
 ];
