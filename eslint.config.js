@@ -1,3 +1,4 @@
+// eslint.config.js
 import js from '@eslint/js';
 import globals from 'globals';
 import react from 'eslint-plugin-react';
@@ -5,12 +6,19 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import prettier from 'eslint-plugin-prettier';
+import prettierPlugin from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 
 export default [
   {
     ignores: ['dist', 'node_modules'],
   },
+
+  // JS core rules
+  js.configs.recommended,
+
+  // Disable ESLint formatting rules (Prettier will handle formatting)
+  prettierConfig,
 
   {
     files: ['src/**/*.{js,jsx}'],
@@ -18,12 +26,7 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      globals: {
-        ...globals.browser,
-      },
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-      },
+      globals: globals.browser,
     },
 
     settings: {
@@ -42,28 +45,23 @@ export default [
       import: importPlugin,
       'jsx-a11y': jsxA11y,
       'react-refresh': reactRefresh,
-      prettier,
+      prettier: prettierPlugin,
     },
 
     rules: {
-      // Base JS rules
-      ...js.configs.recommended.rules,
-
       // React
       ...react.configs.recommended.rules,
 
-      // Accessibility
-      ...jsxA11y.configs.recommended.rules,
-
-      // Hooks rules
+      // Hooks
       ...reactHooks.configs.recommended.rules,
 
-      // Import rules
+      // A11y
+      ...jsxA11y.configs.recommended.rules,
+
+      // Imports
       ...importPlugin.configs.recommended.rules,
 
-      // Allow Vite-style absolute public imports: `/file`.
       'import/no-unresolved': ['error', { ignore: ['^/'] }],
-
       'import/order': [
         'warn',
         {
@@ -75,14 +73,14 @@ export default [
         },
       ],
 
-      // Do not require React import in JSX (React 17+)
-      'react/react-in-jsx-scope': 'off',
-
-      // Prevent broken Fast Refresh cases
+      // React Refresh safety
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 
-      // Format via Prettier
-      'prettier/prettier': 'warn',
+      // No need React import in JSX
+      'react/react-in-jsx-scope': 'off',
+
+      // Prettier as formatter
+      'prettier/prettier': ['warn', { endOfLine: 'lf' }],
     },
   },
 ];
