@@ -9,24 +9,36 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
+// ⬅️ Добавлен для JSX-парсинга
+import babelParser from '@babel/eslint-parser';
+
 export default [
   {
     ignores: ['dist', 'node_modules'],
   },
 
-  // JS core rules
+  // Core JS rules
   js.configs.recommended,
 
-  // Disable ESLint formatting rules (Prettier will handle formatting)
+  // Disable all ESLint formatting rules (Prettier will handle formatting)
   prettierConfig,
 
   {
     files: ['src/**/*.{js,jsx}'],
 
     languageOptions: {
+      parser: babelParser, // ⬅️ ВАЖНО: исправляет ошибки JSX
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: globals.browser,
+
+      // Не требует babel.config.js
+      parserOptions: {
+        requireConfigFile: false,
+        babelOptions: {
+          presets: ['@babel/preset-react'], // ⬅️ Чтобы парсер понимал JSX
+        },
+      },
     },
 
     settings: {
@@ -60,8 +72,8 @@ export default [
 
       // Imports
       ...importPlugin.configs.recommended.rules,
-
       'import/no-unresolved': ['error', { ignore: ['^/'] }],
+
       'import/order': [
         'warn',
         {
@@ -73,13 +85,13 @@ export default [
         },
       ],
 
-      // React Refresh safety
+      // Fast Refresh (Vite)
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 
-      // No need React import in JSX
+      // React 17+
       'react/react-in-jsx-scope': 'off',
 
-      // Prettier as formatter
+      // Prettier formatting
       'prettier/prettier': ['warn', { endOfLine: 'lf' }],
     },
   },
