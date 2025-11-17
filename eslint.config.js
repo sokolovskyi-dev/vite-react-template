@@ -89,6 +89,8 @@ export default [
       // React 17+
       'react/react-in-jsx-scope': 'off',
 
+      'react/prop-types': 'off',
+
       'no-invalid-this': 'error',
 
       'prettier/prettier': [
