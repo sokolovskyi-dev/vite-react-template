@@ -95,12 +95,6 @@ export default [
 
       'prettier/prettier': [
         'error',
-        {
-          endOfLine: 'lf',
-          singleQuote: true,
-          trailingComma: 'all',
-          printWidth: 80,
-        },
       ],
     },
   },
