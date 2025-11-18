@@ -29,7 +29,7 @@ Designed for real-world scalable applications using 2025 frontend standards.
 
 3. Choose a name (e.g. my-app)
 
-4. Clone your new repository:
+4. Clone your new repository  and **Remove lock-files from .gitignore**:
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/my-app
@@ -80,6 +80,25 @@ git push -u origin main
 ```
 
 🔧💡 After creating a new project from this template, update your package.json metadata
+
+📌 About the lock file (**package-lock.json**)
+
+Since this repository is a template, no lock files are included (to avoid OS-specific and native binary conflicts).
+
+However, when you create your own project from this template, you should generate and commit your own lock file:
+
+✔ Recommended for real projects:
+
+- **Remove lock-files from .gitignore:**
+```pgsql
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+```
+- Install dependencies to generate a fresh lock file:
+```bash
+npm install
+```
 
 ## 🧩 Scripts
 
