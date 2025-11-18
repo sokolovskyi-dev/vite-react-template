@@ -3,6 +3,11 @@ node_modules
 dist
 dist-ssr
 
+# Lock files (must NOT be included in templates)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
 # Logs
 logs
 *.log
@@ -26,12 +31,10 @@ lerna-debug.log*
 *.sln
 *.sw?
 
-# VS Code
-# Разрешаем только нужные файлы для шаблона
+# VS Code – allow only template files
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
 
 # Mac
 ._*
-
