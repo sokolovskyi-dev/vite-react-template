@@ -223,28 +223,124 @@ Update eslint.config.js:
 ```
 
 ## 🚀 Deployment
+#### 🔺 Vercel (recommended)
 
-🔺 Vercel (recommended)
-
-- Just push to GitHub → import repo → done.
-
-🐙 GitHub Pages
-
-- Add to vite.config.js:
-
-```js
-export default defineConfig({
-  base: '/your_repo_name/',
-});
-```
-
-Then:
-
+- Build:
 ```bash
 npm run build
 ```
+- Output 🗂: dist/
+Deploy by:
+- Drag & drop dist → https://vercel.com
+- or connect GitHub repo
 
-Deploy 🗂 /dist folder.
+
+#### 🌐 Netlify
+
+Drag & drop dist/ into the dashboard.
+
+#### 🐙 GitHub Pages
+✅ 1. Configure vite.config.js
+
+- Open **vite.config.js** and set the correct public **base** path:
+
+```js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+
+export default defineConfig({
+  plugins: [react()],
+  base: '/YOUR_REPO_NAME/', // <-- Set your repo name here
+});
+```
+✅ 2. Enable GitHub Pages
+- Go to:  **Settings → Pages → Build and deployment**
+
+- Set: **Source: GitHub Actions**
+
+- (Do NOT use gh-pages branch — this template deploys using Actions only.)
+
+✅ 3. Add the GitHub Actions Workflow
+
+- Create a file:
+
+```bash
+.github/workflows/deploy.yml
+```
+- Paste this:
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+```
+✅ 4. Push to main
+- Commit and push:
+```bash
+git add .
+git commit -m "Enable GitHub Pages deployment"
+git push origin main
+```
+✅🌐 5. Live URL
+
+Your app will be available at:
+```cpp
+https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/
+```
+
+🎉 Done!
+
+You now have automatic, zero-maintenance CI/CD deployment
 
 ## 📄 License
 
