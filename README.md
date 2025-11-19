@@ -29,7 +29,7 @@ Designed for real-world scalable applications using 2025 frontend standards.
 
 3. Choose a name (e.g. my-app)
 
-4. Clone your new repository  and **Remove lock-files from .gitignore**:
+4. Clone your new repository:
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/my-app
@@ -80,25 +80,6 @@ git push -u origin main
 ```
 
 🔧💡 After creating a new project from this template, update your package.json metadata
-
-📌 About the lock file (**package-lock.json**)
-
-Since this repository is a template, no lock files are included (to avoid OS-specific and native binary conflicts).
-
-However, when you create your own project from this template, you should generate and commit your own lock file:
-
-✔ Recommended for real projects:
-
-- **Remove lock-files from .gitignore:**
-```pgsql
-package-lock.json
-pnpm-lock.yaml
-yarn.lock
-```
-- Install dependencies to generate a fresh lock file:
-```bash
-npm install
-```
 
 ## 🧩 Scripts
 
@@ -242,23 +223,26 @@ Update eslint.config.js:
 ```
 
 ## 🚀 Deployment
+
 #### 🔺 Vercel (recommended)
 
 - Build:
+
 ```bash
 npm run build
 ```
+
 - Output 🗂: dist/
-Deploy by:
+  Deploy by:
 - Drag & drop dist → https://vercel.com
 - or connect GitHub repo
-
 
 #### 🌐 Netlify
 
 Drag & drop dist/ into the dashboard.
 
 #### 🐙 GitHub Pages
+
 ✅ 1. Configure vite.config.js
 
 - Open **vite.config.js** and set the correct public **base** path:
@@ -272,8 +256,10 @@ export default defineConfig({
   base: '/YOUR_REPO_NAME/', // <-- Set your repo name here
 });
 ```
+
 ✅ 2. Enable GitHub Pages
-- Go to:  **Settings → Pages → Build and deployment**
+
+- Go to: **Settings → Pages → Build and deployment**
 
 - Set: **Source: GitHub Actions**
 
@@ -286,6 +272,7 @@ export default defineConfig({
 ```bash
 .github/workflows/deploy.yml
 ```
+
 - Paste this:
 
 ```yaml
@@ -341,18 +328,22 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
 ```
+
 ✅ 4. Push to main
+
 - Commit and push:
+
 ```bash
 git add .
 git commit -m "Enable GitHub Pages deployment"
 git push origin main
 ```
+
 ✅🌐 5. Live URL
 
 Your app will be available at:
+
 ```cpp
 https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/
 ```

@@ -21,7 +21,6 @@
   margin-top: var(--gap);
 }
 
-/* Адаптация контейнера для широких экранов */
 @media (min-width: 1600px) {
   :root {
     --container-max: 1440px;

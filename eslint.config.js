@@ -1,4 +1,3 @@
-// eslint.config.js
 import js from '@eslint/js';
 import globals from 'globals';
 
@@ -7,36 +6,36 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactRefresh from 'eslint-plugin-react-refresh';
-
 import prettierPlugin from 'eslint-plugin-prettier';
-import prettierConfig from 'eslint-config-prettier';
-
-import babelParser from '@babel/eslint-parser';
 
 export default [
   {
     ignores: ['dist', 'node_modules'],
   },
 
-  js.configs.recommended,
+  {
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: globals.browser,
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
+    },
+  },
 
-  prettierConfig,
+  js.configs.recommended,
 
   {
     files: ['src/**/*.{js,jsx}'],
 
-    languageOptions: {
-      parser: babelParser,
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: globals.browser,
-
-      parserOptions: {
-        requireConfigFile: false,
-        babelOptions: {
-          presets: ['@babel/preset-react'],
-        },
-      },
+    plugins: {
+      react,
+      'react-hooks': reactHooks,
+      import: importPlugin,
+      'jsx-a11y': jsxA11y,
+      'react-refresh': reactRefresh,
+      prettier: prettierPlugin,
     },
 
     settings: {
@@ -49,27 +48,12 @@ export default [
       },
     },
 
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      import: importPlugin,
-      'jsx-a11y': jsxA11y,
-      'react-refresh': reactRefresh,
-      prettier: prettierPlugin,
-    },
-
     rules: {
-      // React
       ...react.configs.recommended.rules,
-
-      // React Hooks
       ...reactHooks.configs.recommended.rules,
-
-      // Accessibility
       ...jsxA11y.configs.recommended.rules,
-
-      // Import rules
       ...importPlugin.configs.recommended.rules,
+
       'import/no-unresolved': ['error', { ignore: ['^/'] }],
 
       'import/order': [
@@ -83,19 +67,13 @@ export default [
         },
       ],
 
-      // Vite React Fast Refresh
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 
-      // React 17+
       'react/react-in-jsx-scope': 'off',
-
       'react/prop-types': 'off',
 
       'no-invalid-this': 'error',
-
-      'prettier/prettier': [
-        'error',
-      ],
+      'prettier/prettier': 'error',
     },
   },
 ];

@@ -12,7 +12,7 @@ export default defineConfig({
     react(),
     checker({
       eslint: {
-        useFlatConfig: true, // ⬅ ВАЖНО!
+        useFlatConfig: true,
         lintCommand: 'eslint "./src/**/*.{js,jsx}"',
       },
     }),
