@@ -17,11 +17,13 @@ button {
   background: var(--color-primary);
   color: var(--color-primary-contrast);
 
-  box-shadow: 0 1px 2px rgba(0,0,0,0.08),
-              0 2px 4px rgba(0,0,0,0.06);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.06);
 
-  transition: background-color 0.15s ease, 
-              box-shadow 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
 
   display: inline-flex;
   align-items: center;
@@ -32,15 +34,17 @@ button {
 @media (hover: hover) and (pointer: fine) {
   button:hover:not(:disabled) {
     background-color: color-mix(in srgb, var(--color-primary) 92%, black 8%);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.10),
-                0 2px 6px rgba(0,0,0,0.08);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.1),
+      0 2px 6px rgba(0, 0, 0, 0.08);
   }
 }
 
 button:active:not(:disabled) {
   background-color: color-mix(in srgb, var(--color-primary) 88%, black 12%);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.10),
-              0 1px 2px rgba(0,0,0,0.08);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 button:disabled {
