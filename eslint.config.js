@@ -7,6 +7,7 @@ import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import prettierPlugin from 'eslint-plugin-prettier';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 
 export default [
   {
@@ -36,6 +37,7 @@ export default [
       'jsx-a11y': jsxA11y,
       'react-refresh': reactRefresh,
       prettier: prettierPlugin,
+      'simple-import-sort': simpleImportSort,
     },
 
     settings: {
@@ -56,16 +58,29 @@ export default [
 
       'import/no-unresolved': ['error', { ignore: ['^/'] }],
 
-      'import/order': [
-        'warn',
+      'import/order': 'off',
+
+      'simple-import-sort/imports': [
+        'error',
         {
-          groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index']],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-          pathGroups: [{ pattern: '@/**', group: 'internal', position: 'before' }],
-          pathGroupsExcludedImportTypes: ['builtin'],
+          groups: [
+            ['^react$', '^react-dom$'],
+
+            ['^@?\\w'],
+
+            ['^@/'],
+
+            ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+
+            ['^\\./(?!/?$)', '^\\./?$'],
+
+            ['^.+\\.s?css$'],
+
+            ['^.+\\.(png|jpe?g|svg|gif|webp)$'],
+          ],
         },
       ],
+      'simple-import-sort/exports': 'error',
 
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 
@@ -73,6 +88,7 @@ export default [
       'react/prop-types': 'off',
 
       'no-invalid-this': 'error',
+
       'prettier/prettier': 'error',
     },
   },
