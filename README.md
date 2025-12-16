@@ -224,7 +224,16 @@ Update eslint.config.js:
 
 ## 🚀 Deployment
 
+## 🚀 Deployment
+
+This template supports any hosting platform (root domain or subfolder) using a single configuration via VITE_BASE.
+
+By default, the app is deployed to the root (/).
+If your hosting platform serves the app from a subdirectory, you only need to set VITE_BASE.
+
 #### 🔺 Vercel (recommended)
+
+No configuration required.
 
 - Build:
 
@@ -239,25 +248,47 @@ npm run build
 
 #### 🌐 Netlify
 
-Drag & drop dist/ into the dashboard.
+No configuration required.
+
+Deploy by dragging dist/ into the Netlify dashboard
+or by connecting a GitHub repository.
+
+#### 🖥 VPS / Render / Railway / Docker / Custom Nginx
+
+If deployed on the root domain:
+
+```env
+VITE_BASE=/
+```
+
+If deployed in a subfolder (e.g. /app/):
+
+```env
+VITE_BASE=/app/
+```
+
+Build:
+
+```bash
+npm run build
+```
+
+Serve the dist/ directory with your web server.
 
 #### 🐙 GitHub Pages
 
-✅ 1. Configure vite.config.js
+GitHub Pages serves apps from a repository subpath , not from /, so VITE_BASE must be set.
 
-- Open **vite.config.js** and set the correct public **base** path:
+Example:
 
-```js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
+```cpp
+https://USERNAME.github.io/REPO_NAME/
 
-export default defineConfig({
-  plugins: [react()],
-  base: '/YOUR_REPO_NAME/', // <-- Set your repo name here
-});
 ```
 
-✅ 2. Enable GitHub Pages
+This template supports GitHub Pages by setting VITE_BASE during the build step in GitHub Actions.
+
+✅ 1. Enable GitHub Pages
 
 - Go to: **Settings → Pages → Build and deployment**
 
@@ -265,15 +296,16 @@ export default defineConfig({
 
 - (Do NOT use gh-pages branch — this template deploys using Actions only.)
 
-✅ 3. Add the GitHub Actions Workflow
+✅ 2. Add the workflow file
 
-- Create a file:
+Create file:
 
 ```bash
 .github/workflows/deploy.yml
+
 ```
 
-- Paste this:
+Paste:
 
 ```yaml
 name: Deploy to GitHub Pages
@@ -293,44 +325,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint code
-        run: npm run lint
+      - run: npm ci
+      - run: npm run lint
 
       - name: Build project
         run: npm run build
+        env:
+          # ✅ Auto-detect repo name → correct base path for GitHub Pages
+          VITE_BASE: /${{ github.event.repository.name }}/
 
-      - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
   deploy:
-    runs-on: ubuntu-latest
     needs: build
+    runs-on: ubuntu-latest
 
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Deploy to GitHub Pages
+      - uses: actions/deploy-pages@v4
         id: deployment
-        uses: actions/deploy-pages@v4
 ```
 
-✅ 4. Push to main
+✅ 3. Push to main
 
 - Commit and push:
 
@@ -352,6 +380,67 @@ https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/
 
 You now have automatic, zero-maintenance CI/CD deployment
 
+## 🧭 React Router (Base Path Support)
+
+When an app is deployed to a subdirectory (for example, GitHub Pages), React Router must use the same base path as Vite.
+
+This template automatically synchronizes routing with the build base using:
+
+```js
+import.meta.env.BASE_URL;
+```
+
+✅ Required configuration
+
+Choose the setup that matches your router type.
+
+🔹 Data Router (createBrowserRouter)
+
+File: where the router is created (e.g. src/router/router.js)
+
+```js
+import { createBrowserRouter } from 'react-router-dom';
+
+export const router = createBrowserRouter(routes, {
+  basename: import.meta.env.BASE_URL,
+});
+```
+
+🔹 Classic Router (<BrowserRouter>)
+
+File: App.jsx or main.jsx
+
+```js
+import { BrowserRouter } from 'react-router-dom';
+
+export function App() {
+  return (
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      {/* routes */}
+    </BrowserRouter>
+  );
+}
+
+
+
+🔍 Why this is required
+
+Vite builds the app using base from vite.config.js
+
+import.meta.env.BASE_URL always matches that value
+
+React Router must use the same base to generate correct URLs
+
+This ensures routing works correctly:
+
+in local development
+
+on root-domain hosting (Vercel, Netlify)
+
+on subdirectory hosting (GitHub Pages)
+
+
+
 ## 📄 License
 
 MIT © 2025 Serhii Sokolovskyi
@@ -370,3 +459,4 @@ If this template helped you:
 ## 🎉 Happy Coding!
 
 Build fast, clean, modern React apps — with zero setup.
+```
